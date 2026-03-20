@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dessert Hangman - Easy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+<aside id="howToPlayPanel" class="how-panel">
+  <button class="handle" id="howHandle">HOW TO PLAY</button>
+
+  <div class="content">
+    <button class="close-btn" id="howClose">×</button>
+    <img src="xxx" alt="Game rules">
+    <p>
+  1. Choose a difficulty on the landing page: Easy, Medium, or Hard.<br><br>
+
+  2. A hidden dessert word will appear as blank spaces (_ _ _).<br><br>
+
+  3. Type one letter in the input box and press the Guess button.<br><br>
+
+  4. If the letter is in the word, it will appear in the correct spot.<br><br>
+
+  5. If the letter is NOT in the word, you lose one guess and the cake gets eaten!<br><br>
+
+  6. The letters you already guessed will appear in the "Used Letters" section.<br><br>
+
+  7. Guess the full dessert word before you run out of guesses to win!
+  </p>
+  </div>
+</aside>
+
+<h1> Dessert Hangman - Easy </h1>
+<img src="dessertlogo.png" alt="Dessert Logo" class="logo">
+<img id="healthImg" src="images/cake8.png" width="200">
+
+<h2 id="wordDisplay"></h2>
+<p>Used Letters: <span id="usedLetters"></span></p>
+<p>Guesses Left: <span id="guessesLeft"></span></p>
+
+<div>
+    <input type="text" id="guessInput" maxlength="1" placeholder="Enter a letter">
+    <button id="guessBtn">Guess</button>
+</div>
+<div id="cakeStage">
+  <div class="slice" id="slice1"></div>
+  <div class="slice" id="slice2"></div>
+  <div class="slice" id="slice3"></div>
+  <div class="slice" id="slice4"></div>
+  <div class="slice" id="slice5"></div>
+  <div class="slice" id="slice6"></div>
+  <div class="slice" id="slice7"></div>
+  <div class="slice" id="slice8"></div>
+</div>
+<p id="message"></p>
+
+<a href="index.html"><button>Back to Landing Page</button></a>
+
+<script src="script.js"></script>
+<script>
+    // Start game with Easy difficulty (8 guesses)
+    startGame(8);
+</script>
+
+</body>
+</html>

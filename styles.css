@@ -1,0 +1,110 @@
+body {
+    background-color: #ffe6f0;
+    font-family: "Dancing Script", cursive;
+    text-align: center;
+    color: #4b2e2e; 
+    margin: 0;
+    padding: 20px;
+}
+.logo {
+  position: fixed;    
+  top: 10px;        
+  left: 10px;       
+  width: 120px;      
+  height: auto;      
+  z-index: 1000;    
+}
+
+.difficulty-buttons {
+    display: flex;
+    justify-content: center;  
+    gap: 15px;               
+    flex-wrap: wrap;         
+}
+
+
+
+/* Off canvas */
+.how-panel {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  background: #E75480;
+  color: white;
+  border-radius: 0 10px 10px 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  z-index: 1050;
+}
+
+.how-panel.open {
+  width: 320px;
+}
+
+.handle {
+  writing-mode: vertical-rl;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.content {
+  background: #fff0f5;
+  color: #6f1d46;
+  padding: 15px;
+  display: none;
+  width: 270px;
+}
+
+.how-panel.open .content {
+  display: block;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
+  color: #6f1d46;
+}
+.how-panel .inner img,
+.how-panel img {
+  width: 100%;
+  max-width: 220px;   /* ← controls how small it gets */
+  height: auto;
+  margin: 10px auto;
+  display: block;
+}
+.how-panel .inner p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+.how-panel .inner h3 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}   
+.how-panel img {
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(231, 84, 128, 0.3);
+}
+
+#cakeStage {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.slice {
+  width: 30px;
+  height: 60px;
+  background: pink;
+  margin: 2px;
+  border-radius: 4px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
