@@ -6,6 +6,176 @@ body {
     margin: 0;
     padding: 20px;
 }
+
+.game-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.left-panel {
+  flex: 0 0 300px;
+}
+
+.right-panel {
+  flex: 1;
+  text-align: center;
+}
+
+#hangmanStage {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  background: linear-gradient(135deg, #fff5f7 0%, #fce4ec 100%);
+  border: 3px solid #ffb6c1;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#hangmanStage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(255, 182, 193, 0.4), 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Alphabet buttons */
+#alphabet {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.alphabet-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #ffb6c1;
+  border: 2px solid #ff8fab;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4b2e2e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.alphabet-btn:hover:not(:disabled) {
+  background-color: #ff8fab;
+  transform: scale(1.05);
+}
+
+.alphabet-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.alphabet-btn.correct {
+  background-color: #90EE90;
+  border-color: #32CD32;
+}
+
+.alphabet-btn.incorrect {
+  background-color: #FFB6C1;
+  border-color: #FF6B9D;
+}
+
+/* Gallows */
+.pole {
+  position: absolute;
+  width: 10px;
+  height: 250px;
+  background: #d4a574;
+  left: 20px;
+  bottom: 0;
+  border-radius: 5px;
+}
+
+.beam {
+  position: absolute;
+  width: 100px;
+  height: 10px;
+  background: #d4a574;
+  top: 0;
+  left: 20px;
+  border-radius: 5px;
+}
+
+.rope {
+  position: absolute;
+  width: 3px;
+  height: 40px;
+  background: #8b4513;
+  top: 10px;
+  left: 110px;
+  border-radius: 2px;
+}
+
+/* Base hidden state */
+.part {
+  position: absolute;
+  display: none;
+}
+
+/* 🍩 HEAD (donut) */
+.head {
+  width: 40px;
+  height: 40px;
+  background: #ffb3d9;
+  border-radius: 50%;
+  top: 50px;
+  left: 90px;
+  border: 2px solid #ff8fab;
+}
+
+/* 🍰 BODY (cake) */
+.body {
+  width: 10px;
+  height: 60px;
+  background: #ffb6c1;
+  top: 90px;
+  left: 105px;
+  border-radius: 5px;
+}
+
+/* 🍫 ARMS */
+.arm {
+  width: 40px;
+  height: 5px;
+  background: #d2691e;
+  top: 110px;
+  border-radius: 3px;
+}
+
+.left-arm {
+  left: 65px;
+}
+
+.right-arm {
+  left: 105px;
+}
+
+/* 🍪 LEGS */
+.leg {
+  width: 40px;
+  height: 5px;
+  background: #daa520;
+  top: 150px;
+  border-radius: 3px;
+}
+
+.left-leg {
+  left: 65px;
+}
+
+.right-leg {
+  left: 105px;
+}
 .logo {
   position: fixed;    
   top: 10px;        

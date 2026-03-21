@@ -3,55 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Dessert Hangman</title>
-
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lobster&family=Love+Light&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="styles.css">
-
 </head>
 
-<body> 
-    <aside id="howToPlayPanel" class="how-panel">
-  <button class="handle" id="howHandle">HOW TO PLAY</button>
+<body>
 
-  <div class="content">
-    <button class="close-btn" id="howClose">×</button>
-    <img src="xxx" alt="Game rules">
-    <p>
-  1. Choose a difficulty on the landing page: Easy, Medium, or Hard.<br><br>
+<div class="container">
+  <h1>Dessert Hangman</h1>
+  <p>Guess the dessert before it gets eaten!</p>
 
-  2. A hidden dessert word will appear as blank spaces (_ _ _).<br><br>
-
-  3. Type one letter in the input box and press the Guess button.<br><br>
-
-  4. If the letter is in the word, it will appear in the correct spot.<br><br>
-
-  5. If the letter is NOT in the word, you lose one guess and the cake gets eaten!<br><br>
-
-  6. The letters you already guessed will appear in the "Used Letters" section.<br><br>
-
-  7. Guess the full dessert word before you run out of guesses to win!
-  </p>
+  <div class="buttons">
+    <a href="easy.html"><button>Easy</button></a>
+    <a href="medium.html"><button>Medium</button></a>
+    <a href="hard.html"><button>Hard</button></a>
   </div>
-</aside> 
-
-
-
-<div class="landing-page">
-    <div class="landing-card">
-        <img src="dessertlogo.png" alt="Dessert Logo" class="logo">
-        <h1> Dessert Hangman </h1>
-        <p>Guess the dessert before it gets eaten! Choose your difficulty to start.</p>
-        
-        <div class="difficulty-buttons">
-            <a href="easy.html"><button>Easy</button></a>
-            <a href="medium.html"><button>Medium</button></a>
-            <a href="hard.html"><button>Hard</button></a>
-        </div>
-    </div>
 </div>
 </body>
 </html>
