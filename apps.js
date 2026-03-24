@@ -4,6 +4,7 @@
 let easyWords = ["cake","pie","flan","tart","donut"];
 let mediumWords = ["cookie","brownie","waffle","pudding"];
 let hardWords = ["cheesecake","tiramisu","croissant","macaron"];
+let hardWords1 = ["jazz"];
 
 
 // =========================
@@ -110,8 +111,10 @@ function startGame(difficultyGuesses) {
   document.getElementById("usedLetters").textContent = "";
   document.getElementById("message").textContent = "";
 
-  document.getElementById("guessInput").disabled = false;
-  document.getElementById("guessBtn").disabled = false;
+  let guessInput = document.getElementById("guessInput");
+  let guessBtn = document.getElementById("guessBtn");
+  if (guessInput) guessInput.disabled = false;
+  if (guessBtn) guessBtn.disabled = false;
 
   // reset alphabet buttons
   resetButtons();
@@ -238,8 +241,10 @@ function endGame() {
   stopTimer();
   gameOver = true;
 
-  document.getElementById("guessInput").disabled = true;
-  document.getElementById("guessBtn").disabled = true;
+  let guessInput = document.getElementById("guessInput");
+  let guessBtn = document.getElementById("guessBtn");
+  if (guessInput) guessInput.disabled = true;
+  if (guessBtn) guessBtn.disabled = true;
 }
 
 
