@@ -1,64 +1,59 @@
 // =======================
-// WORD BANKS BY DIFFICULTY 
+// WORD BANKS
 // =======================
-let easyWords = [
-  "cake", "pie", "flan", "tart", "oreo",
-  "milk", "jelly", "fudge", "chips", "candy"
-];
-
-let mediumWords = [
-  "donut", "cookie", "waffle", "brownie", "eclair",
-  "muffin", "gelato", "sundae", "pudding", "cupcake"
-];
-
-let hardWords = [
-  "croissant", "macaron", "tiramisu", "cheesecake", "strudel",
-  "baklava", "profiterole", "pavlova", "churros", "cannoli"
-];
+let easyWords = ["cake", "pie", "flan", "tart", "oreo", "milk", "jelly", "fudge", "chips", "candy"];
+let mediumWords = ["donut", "cookie", "waffle", "brownie", "eclair", "muffin", "gelato", "sundae", "pudding", "cupcake"];
+let hardWords = ["croissant", "macaron", "tiramisu", "cheesecake", "strudel", "baklava", "profiterole", "pavlova", "churros", "cannoli"];
 
 // =======================
-// GAME VARIABLES
+// VARIABLES
 // =======================
 let secretWord = "";
 let guessedLetters = [];
 let wrongGuesses = 0;
-let maxWrong = 8; // Easy mode = 8 lives
+let maxWrong = 8;
 let gameActive = false;
 let currentDifficulty = "";
-let playerGender = "male";
+let playerGender = "male"; // stores player choice
 
-// Timer variables
-let timeLeft = 180;
-let timerInterval = null;
+// TIMER VARIABLES
+let timeLeft = 180; // 3 minutes
+let timerInterval = null; // will store the timer
 
 // =======================
 // GENDER POPUP
 // =======================
 function showGenderPopup(difficulty) {
   currentDifficulty = difficulty;
-  
-  const overlay = document.createElement('div');
-  overlay.id = 'genderOverlay';
-  overlay.className = 'gender-overlay';
-  
-  overlay.innerHTML = `
-    <div class="gender-popup">
-      <h2 class="gender-popup__title"> Welcome to ${difficulty.toUpperCase()} Mode!</h2>
-      <p class="gender-popup__text">Choose your final character:</p>
-      <div class="gender-popup__options">
-        <button type="button" class="gender-popup__button gender-popup__button--male" onclick="selectGender('male')">Male</button>
-        <button type="button" class="gender-popup__button gender-popup__button--female" onclick="selectGender('female')">Female</button>
-      </div>
-    </div>
-  `;
-  
+
+  // create a new div (popup background)
+  let overlay = document.createElement("div");
+  overlay.id = "genderOverlay";
+  overlay.className = "gender-overlay";
+
+  // add HTML inside popup
+  overlay.innerHTML =
+    "<div class='gender-popup'>" +
+    "<h2 class='gender-popup__title'>Choose Character</h2>" +
+    "<div class='gender-popup__options'>" +
+    "<button class='gender-popup__button gender-popup__button--male' onclick=\"selectGender('male')\">Male</button>" +
+    "<button class='gender-popup__button gender-popup__button--female' onclick=\"selectGender('female')\">Female</button>" +
+    "</div>" +
+    "</div>";
+
+  // add popup to the page
   document.body.appendChild(overlay);
 }
 
+// runs when player clicks male/female
 function selectGender(gender) {
-  playerGender = gender;
-  localStorage.setItem('hangmanGender', gender);
-  document.getElementById('genderOverlay').remove();
+  playerGender = gender; // save choice
+
+  // remove popup
+  let overlay = document.getElementById("genderOverlay");
+  overlay.remove();
+
+  // start the game
   startGame(currentDifficulty);
 }
 
@@ -66,164 +61,238 @@ function selectGender(gender) {
 // START GAME
 // =======================
 function startGame(difficulty) {
-  if (difficulty === "easy") maxWrong = 8;
-  if (difficulty === "medium") maxWrong = 6;
-  if (difficulty === "hard") maxWrong = 4;
+  currentDifficulty = difficulty;
+
+  if (difficulty === "easy") {
+    maxWrong = 8;
+  } else if (difficulty === "medium") {
+    maxWrong = 6;
+  } else {
+    maxWrong = 4;
+  }
 
   guessedLetters = [];
   wrongGuesses = 0;
   gameActive = true;
 
-  let wordList = difficulty === "easy" ? easyWords : 
-                difficulty === "medium" ? mediumWords : hardWords;
-  
-  secretWord = wordList[Math.floor(Math.random() * wordList.length)].toLowerCase();
+  let wordList;
 
-  // Reset UI
+  if (difficulty === "easy") {
+    wordList = easyWords;
+  } else if (difficulty === "medium") {
+    wordList = mediumWords;
+  } else {
+    wordList = hardWords;
+  }
+
+  // pick random word
+  let randomIndex = Math.floor(Math.random() * wordList.length);
+  secretWord = wordList[randomIndex];
+
+  // reset screen
   document.getElementById("message").textContent = "";
   document.getElementById("guessed").textContent = "";
-  document.getElementById("hangmanImage").src = "image.png"; // Start image
+  document.getElementById("hangmanImage").src = "image.png";
+
   updateWordDisplay();
 
-  if (difficulty === "hard") startTimer();
-}
-
-// =======================
-// UPDATE HANGMAN IMAGE (YOUR SPECIFIC IMAGES)
-// =======================
-function updateHangmanImage() {
-  let imagePath;
-  
-  if (wrongGuesses === 0) imagePath = "image.png";
-  else if (wrongGuesses === 1) imagePath = "image1.png";
-  else if (wrongGuesses === 2) imagePath = "image2.png";
-  else if (wrongGuesses === 3) imagePath = "image3.png";
-  else if (wrongGuesses === 4) imagePath = "image4.png";
-  else if (wrongGuesses === 5) imagePath = "image5.png";
-  else if (wrongGuesses === 6) imagePath = "image6.png";
-  else if (wrongGuesses >= 7) {
-    // FINAL IMAGE - Gender specific
-    imagePath = playerGender === "female" ? "imagefemale.png" : "imagemale.png";
+  // ONLY start timer in hard mode
+  if (difficulty === "hard") {
+    startTimer();
   }
-  
-  const img = document.getElementById("hangmanImage");
-  img.src = imagePath;
 }
 
 // =======================
-// OTHER FUNCTIONS (updateWordDisplay, handleGuess, etc.)
+// UPDATE WORD DISPLAY
 // =======================
 function updateWordDisplay() {
   let display = "";
+
   for (let i = 0; i < secretWord.length; i++) {
-    display += guessedLetters.includes(secretWord[i]) ? secretWord[i] + " " : "_ ";
+    let letter = secretWord.charAt(i);
+    let found = false;
+
+    // check if letter was guessed
+    for (let j = 0; j < guessedLetters.length; j++) {
+      if (guessedLetters[j] === letter) {
+        found = true;
+      }
+    }
+
+    if (found) {
+      display = display + letter + " ";
+    } else {
+      display = display + "_ ";
+    }
   }
-  document.getElementById("word").textContent = display.trim();
+
+  document.getElementById("word").textContent = display;
 }
 
+// =======================
+// HANDLE GUESS
+// =======================
 function handleGuess() {
-  if (!gameActive) return;
-
-  let input = document.getElementById("guessInput");
-  let guess = input.value.toLowerCase().trim();
-  input.value = "";
-
-  if (guess.length !== 1 || !/[a-z]/.test(guess)) {
-    document.getElementById("message").textContent = "Enter ONE letter A-Z!";
+  if (gameActive === false) {
     return;
   }
 
-  if (guessedLetters.includes(guess)) {
-    document.getElementById("message").textContent = "Already guessed!";
+  let input = document.getElementById("guessInput");
+  let guess = input.value.toLowerCase();
+  input.value = "";
+
+  if (guess.length !== 1) {
+    document.getElementById("message").textContent = "Enter ONE letter!";
     return;
+  }
+
+  // check if already guessed
+  for (let i = 0; i < guessedLetters.length; i++) {
+    if (guessedLetters[i] === guess) {
+      document.getElementById("message").textContent = "Already guessed!";
+      return;
+    }
   }
 
   guessedLetters.push(guess);
 
-  if (secretWord.includes(guess)) {
+  let correct = false;
+
+  // check if guess is in word
+  for (let i = 0; i < secretWord.length; i++) {
+    if (secretWord.charAt(i) === guess) {
+      correct = true;
+    }
+  }
+
+  if (correct) {
     document.getElementById("message").textContent = "Correct!";
   } else {
-    wrongGuesses++;
+    wrongGuesses = wrongGuesses + 1;
     updateHangmanImage();
     document.getElementById("message").textContent = "Wrong guess!";
   }
 
   updateWordDisplay();
-  document.getElementById("guessed").textContent = guessedLetters.join(", ");
+
+  // display guessed letters
+  let guessedDisplay = "";
+  for (let i = 0; i < guessedLetters.length; i++) {
+    guessedDisplay = guessedDisplay + guessedLetters[i] + " ";
+  }
+  document.getElementById("guessed").textContent = guessedDisplay;
+
   checkGameStatus();
-  input.focus();
 }
 
-function checkGameStatus() {
-  if (!document.getElementById("word").textContent.includes("_")) {
-    endGame(true);
-  } else if (wrongGuesses >= maxWrong) {
-    endGame(false);
+// =======================
+// UPDATE IMAGE
+// =======================
+function updateHangmanImage() {
+  let img = document.getElementById("hangmanImage");
+
+  if (wrongGuesses === 0) img.src = "image.png";
+  else if (wrongGuesses === 1) img.src = "image1.png";
+  else if (wrongGuesses === 2) img.src = "image2.png";
+  else if (wrongGuesses === 3) img.src = "image3.png";
+  else if (wrongGuesses === 4) img.src = "image4.png";
+  else if (wrongGuesses === 5) img.src = "image5.png";
+  else if (wrongGuesses === 6) img.src = "image6.png";
+  else {
+    // final image depends on gender
+    if (playerGender === "female") {
+      img.src = "imagefemale.png";
+    } else {
+      img.src = "imagemale.png";
+    }
   }
 }
 
-function restartGame() {
-  startGame(currentDifficulty);
-}
-
+// =======================
+// TIMER FUNCTIONS
+// =======================
 function startTimer() {
-  clearInterval(timerInterval);
-  timeLeft = 180;
-  const timerElement = document.getElementById("timer");
+  clearInterval(timerInterval); // stop old timer
+
+  timeLeft = 180; // reset time
+
+  let timerElement = document.getElementById("timer");
   if (timerElement) {
-    timerElement.textContent = formatTime(timeLeft);
+    timerElement.textContent = timeLeft;
   }
 
-  timerInterval = setInterval(() => {
-    if (!gameActive) {
+  // run every second
+  timerInterval = setInterval(function () {
+    if (gameActive === false) {
       clearInterval(timerInterval);
       return;
     }
 
-    timeLeft--;
+    timeLeft = timeLeft - 1;
+
     if (timerElement) {
-      timerElement.textContent = formatTime(timeLeft);
+      timerElement.textContent = timeLeft;
     }
 
+    // if time runs out → lose
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      timeLeft = 0;
-      if (timerElement) {
-        timerElement.textContent = formatTime(timeLeft);
-      }
       endGame(false);
     }
   }, 1000);
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
 }
 
-function endGame(win) {
-  gameActive = false;
-  stopTimer();
-  if (win) {
-    document.getElementById("message").textContent = "YOU WIN!";
-  } else {
-    document.getElementById("message").textContent = `Game Over! Word: ${secretWord.toUpperCase()}`;
-    updateHangmanImage(); // Show final gender image
+// =======================
+// CHECK WIN / LOSE
+// =======================
+function checkGameStatus() {
+  let wordDisplay = document.getElementById("word").textContent;
+
+  if (wordDisplay.indexOf("_") === -1) {
+    endGame(true);
+  } else if (wrongGuesses >= maxWrong) {
+    endGame(false);
   }
 }
 
-// Enter key support
-document.addEventListener("DOMContentLoaded", function() {
+// =======================
+// END GAME
+// =======================
+function endGame(win) {
+  gameActive = false;
+  stopTimer();
+
+  if (win) {
+    document.getElementById("message").textContent = "YOU WIN!";
+  } else {
+    document.getElementById("message").textContent =
+      "Game Over! Word: " + secretWord;
+    updateHangmanImage();
+  }
+}
+
+// =======================
+// RESTART
+// =======================
+function restartGame() {
+  startGame(currentDifficulty);
+}
+
+// =======================
+// ENTER KEY SUPPORT
+// =======================
+document.addEventListener("DOMContentLoaded", function () {
   let input = document.getElementById("guessInput");
+
   if (input) {
-    input.addEventListener("keypress", function(e) {
-      if (e.key === "Enter") handleGuess();
+    input.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        handleGuess();
+      }
     });
-    input.focus();
   }
 });
